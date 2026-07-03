@@ -2,19 +2,24 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Besuchsbestätigung – Technisches Aufmaß</title>
+<title>Besuchs- und Aufmaßbestätigung</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Externe Libraries (KORREKT eingebunden) -->
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
 <style>
 :root {
     --primary: #1f2937;
+    --muted: #6b7280;
     --accent: #2563eb;
     --bg: #f9fafb;
     --card: #ffffff;
+    --border: #d1d5db;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
@@ -26,64 +31,124 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 680px;
     margin: 0 auto;
     background: var(--card);
-    padding: 24px;
-    border-radius: 12px;
+    padding: 26px;
+    border-radius: 14px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
 h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin: 0 0 22px;
+}
+
+.company {
+    background: #f3f4f6;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 18px;
 }
 
 p {
-    line-height: 1.5;
+    line-height: 1.55;
     margin-bottom: 14px;
 }
 
+.notice {
+    font-size: 0.95em;
+    color: #374151;
+    background: #f8fafc;
+    border-left: 4px solid var(--accent);
+    padding: 12px 14px;
+    border-radius: 8px;
+}
+
+.legal-note {
+    font-size: 0.9em;
+    color: var(--muted);
+    margin-top: 8px;
+}
+
 label {
-    font-weight: 600;
+    font-weight: 650;
     display: block;
     margin-top: 16px;
 }
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 11px;
     margin-top: 6px;
     border-radius: 8px;
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--border);
     font-size: 16px;
+    background: white;
+}
+
+.signature-box {
+    margin-top: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    overflow: hidden;
 }
 
 canvas {
-    border: 1px solid #d1d5db;
+    display: block;
     width: 100%;
     height: 200px;
-    border-radius: 8px;
-    margin-top: 8px;
+    background: white;
+    touch-action: none;
+}
+
+.signature-hint {
+    padding: 8px 10px;
+    font-size: 0.85em;
+    color: var(--muted);
+    border-top: 1px solid #e5e7eb;
 }
 
 button {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     margin-top: 14px;
     font-size: 16px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    font-weight: 650;
 }
 
 .clear {
     background: #e5e7eb;
+    color: #111827;
 }
 
 .create {
     background: var(--accent);
     color: white;
+}
+
+.create:hover {
+    background: #1d4ed8;
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+
+    .container {
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    button {
+        display: none;
+    }
 }
 </style>
 </head>
@@ -92,78 +157,248 @@ button {
 
 <div class="container">
 
-<h2>Besuchsbestätigung</h2>
+<h2>Besuchs- und Aufmaßbestätigung</h2>
 
-<p><strong>Firma:</strong> Sichtwerk – Neubauer</p>
+<div class="company">
+    <strong>Firma:</strong> Sichtwerk – Neubauer
+</div>
 
 <p>
-Hiermit bestätigt der Auftraggeber, dass durch die Firma
-<strong>Sichtwerk – Neubauer</strong> ein
-<strong>technisches Aufmaß sowie eine Fachberatung vor Ort</strong>
-durchgeführt wurden.
+Hiermit bestätigt der Auftraggeber, dass die Firma
+<strong>Sichtwerk – Neubauer</strong> am unten genannten Ort und Datum
+vor Ort war und ein <strong>technisches Aufmaß sowie eine Fachberatung</strong>
+durchgeführt hat.
 </p>
 
-<p style="font-size: 0.95em;">
+<p>
+Diese Bestätigung dokumentiert ausschließlich den stattgefundenen
+Vor-Ort-Termin. Sie stellt <strong>keine Auftragserteilung, keine Abnahme
+einer Leistung und kein Schuldanerkenntnis</strong> dar.
+</p>
+
+<p class="notice">
 <strong>Hinweis:</strong><br>
-Bei einer Auftragserteilung innerhalb der
-<strong>Angebotsgültigkeit von maximal 30 Tagen</strong>
-wird eine ggf. berechnete Pauschale vollständig
-auf den Auftragswert angerechnet.
+Bei einer Auftragserteilung innerhalb der Angebotsgültigkeit von maximal
+<strong>30 Tagen</strong> wird eine gegebenenfalls berechnete Pauschale
+vollständig auf den Auftragswert angerechnet.
 </p>
 
-<label>Ort</label>
-<input id="ort">
+<label for="kunde">Name Auftraggeber / Kunde</label>
+<input id="kunde" autocomplete="name" placeholder="Vor- und Nachname">
 
-<label>Datum</label>
+<label for="ort">Ort des Aufmaßes</label>
+<input id="ort" autocomplete="address-level2" placeholder="Ort">
+
+<label for="datum">Datum</label>
 <input type="date" id="datum">
 
-<label>Unterschrift Auftraggeber</label>
-<canvas id="signature"></canvas>
+<label for="signature">Unterschrift Auftraggeber</label>
+<div class="signature-box">
+    <canvas id="signature"></canvas>
+    <div class="signature-hint">Bitte im weißen Feld unterschreiben.</div>
+</div>
 
-<button class="clear" onclick="signaturePad.clear()">Unterschrift löschen</button>
-<button class="create" onclick="generatePDF()">PDF erstellen</button>
+<button class="clear" type="button" onclick="clearSignature()">Unterschrift löschen</button>
+<button class="create" type="button" onclick="generatePDF()">PDF erstellen</button>
+
+<p class="legal-note">
+Hinweis: Das PDF wird lokal im Browser erstellt. Diese Vorlage ersetzt keine individuelle Rechtsberatung.
+</p>
 
 </div>
 
 <script>
 const canvas = document.getElementById("signature");
-const signaturePad = new SignaturePad(canvas);
+const kundeInput = document.getElementById("kunde");
+const ortInput = document.getElementById("ort");
+const datumInput = document.getElementById("datum");
+
+let signaturePad;
 
 // heutiges Datum automatisch setzen
-document.getElementById("datum").value =
-    new Date().toISOString().split("T")[0];
+datumInput.value = new Date().toISOString().split("T")[0];
+
+function resizeCanvas() {
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+    const rect = canvas.getBoundingClientRect();
+
+    canvas.width = Math.round(rect.width * ratio);
+    canvas.height = Math.round(rect.height * ratio);
+
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    if (signaturePad) {
+        signaturePad.clear();
+    }
+}
+
+function initSignaturePad() {
+    resizeCanvas();
+
+    signaturePad = new SignaturePad(canvas, {
+        backgroundColor: "rgb(255,255,255)",
+        penColor: "rgb(17,24,39)",
+        minWidth: 0.8,
+        maxWidth: 2.4,
+        throttle: 16
+    });
+}
+
+function clearSignature() {
+    if (signaturePad) {
+        signaturePad.clear();
+    }
+}
+
+let resizeTimer;
+window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resizeCanvas, 200);
+});
+
+window.addEventListener("load", initSignaturePad);
+
+function formatDateGerman(dateValue) {
+    if (!dateValue) return "";
+    const [year, month, day] = dateValue.split("-");
+    return `${day}.${month}.${year}`;
+}
+
+function safeFileName(value) {
+    return value
+        .trim()
+        .replace(/[^\wäöüÄÖÜß-]+/g, "_")
+        .replace(/_+/g, "_")
+        .replace(/^_|_$/g, "");
+}
+
+function addWrappedText(pdf, text, x, y, width, lineHeight) {
+    const lines = pdf.splitTextToSize(text, width);
+    pdf.text(lines, x, y);
+    return y + lines.length * lineHeight;
+}
 
 function generatePDF() {
-    if (signaturePad.isEmpty()) {
-        alert("Bitte unterschreiben");
+    const kunde = kundeInput.value.trim();
+    const ort = ortInput.value.trim();
+    const datum = datumInput.value;
+
+    if (!kunde) {
+        alert("Bitte den Namen des Auftraggebers / Kunden eintragen.");
+        return;
+    }
+
+    if (!ort) {
+        alert("Bitte den Ort eintragen.");
+        return;
+    }
+
+    if (!datum) {
+        alert("Bitte das Datum eintragen.");
+        return;
+    }
+
+    if (!signaturePad || signaturePad.isEmpty()) {
+        alert("Bitte unterschreiben.");
         return;
     }
 
     const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
+    const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+    });
 
-    pdf.setFontSize(12);
-    pdf.text("Besuchsbestätigung – Technisches Aufmaß", 14, 20);
-    pdf.text("Firma: Sichtwerk – Neubauer", 14, 35);
-    pdf.text("Ort: " + ort.value, 14, 50);
-    pdf.text("Datum: " + datum.value, 14, 60);
+    const margin = 18;
+    const pageWidth = 210;
+    const contentWidth = pageWidth - margin * 2;
 
+    pdf.setProperties({
+        title: "Besuchs- und Aufmaßbestätigung",
+        subject: "Bestätigung technisches Aufmaß und Fachberatung vor Ort",
+        author: "Sichtwerk – Neubauer"
+    });
+
+    pdf.setDrawColor(220, 220, 220);
+    pdf.rect(10, 10, 190, 277);
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(17);
+    pdf.text("Besuchs- und Aufmaßbestätigung", pageWidth / 2, 24, { align: "center" });
+
+    pdf.setFontSize(11);
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Firma: Sichtwerk – Neubauer", margin, 42);
+
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Angaben zum Termin", margin, 58);
+
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Auftraggeber / Kunde: " + kunde, margin, 70);
+    pdf.text("Ort des Aufmaßes: " + ort, margin, 80);
+    pdf.text("Datum: " + formatDateGerman(datum), margin, 90);
+
+    let y = 108;
+
+    const text1 =
+        "Hiermit bestätigt der Auftraggeber, dass die Firma Sichtwerk – Neubauer am oben genannten Ort und Datum vor Ort war und ein technisches Aufmaß sowie eine Fachberatung durchgeführt hat.";
+
+    const text2 =
+        "Diese Bestätigung dokumentiert ausschließlich den stattgefundenen Vor-Ort-Termin. Sie stellt keine Auftragserteilung, keine Abnahme einer Leistung und kein Schuldanerkenntnis dar.";
+
+    const text3 =
+        "Hinweis: Bei einer Auftragserteilung innerhalb der Angebotsgültigkeit von maximal 30 Tagen wird eine gegebenenfalls berechnete Pauschale vollständig auf den Auftragswert angerechnet.";
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(11);
+
+    y = addWrappedText(pdf, text1, margin, y, contentWidth, 6);
+    y += 8;
+
+    y = addWrappedText(pdf, text2, margin, y, contentWidth, 6);
+    y += 8;
+
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Hinweis", margin, y);
+    y += 7;
+
+    pdf.setFont("helvetica", "normal");
+    y = addWrappedText(pdf, text3, margin, y, contentWidth, 6);
+    y += 14;
+
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Unterschrift Auftraggeber", margin, y);
+    y += 6;
+
+    pdf.setDrawColor(180, 180, 180);
+    pdf.rect(margin, y, contentWidth, 42);
+
+    const signatureImage = signaturePad.toDataURL("image/png");
+    pdf.addImage(signatureImage, "PNG", margin + 3, y + 3, contentWidth - 6, 36);
+
+    y += 52;
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(10);
+    pdf.text("Ort, Datum: " + ort + ", " + formatDateGerman(datum), margin, y);
+    y += 12;
+    pdf.line(margin, y, margin + 75, y);
+    pdf.text("Unterschrift Auftraggeber", margin, y + 5);
+
+    pdf.setFontSize(8);
+    pdf.setTextColor(100);
     pdf.text(
-        "Hiermit wird bestätigt, dass ein technisches Aufmaß sowie eine\nFachberatung vor Ort durchgeführt wurden.",
-        14,
-        75
+        "Erstellt lokal im Browser. Vorlage ohne individuelle Rechtsberatung.",
+        margin,
+        282
     );
 
-    pdf.text(
-        "Hinweis: Bei Auftragserteilung innerhalb der Angebotsgültigkeit\nvon maximal 30 Tagen wird eine ggf. berechnete Pauschale vollständig\nangerechnet.",
-        14,
-        95
-    );
+    const fileDate = datum.replaceAll("-", "");
+    const fileCustomer = safeFileName(kunde) || "Auftraggeber";
 
-    pdf.text("Unterschrift Auftraggeber:", 14, 125);
-    pdf.addImage(signaturePad.toDataURL("image/png"), "PNG", 14, 130, 180, 50);
-
-    pdf.save("Besuchsbestätigung_Aufmaß.pdf");
+    pdf.save(`Besuchs_und_Aufmassbestaetigung_${fileCustomer}_${fileDate}.pdf`);
 }
 </script>
 
